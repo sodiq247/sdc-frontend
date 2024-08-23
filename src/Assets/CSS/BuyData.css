@@ -1,0 +1,181 @@
+.BuyData-main {
+  padding-top: 5%;
+  margin-left: 19%;
+  width: 80%;
+}
+.BuyData-submain {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  border-radius: 5px;
+  background: #FFF;
+  /* btn */
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+.BuyData-form {
+  padding: 8%;
+  color: #005662;
+  font-family: Fira Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+.plan-note {
+  font-size: 16px;
+  text-align: left;
+}
+.Buy-now-btn {
+  width: 100%;
+  margin-top: 6%;
+}
+
+.Form-submain {
+  text-align: left;
+
+}
+.form-label {
+  margin-bottom: .5rem;
+  margin-left: 2%;
+}
+
+/* BuyAirtime Page Start */
+.BuyAirtime {
+  padding-left: 20%;
+  width: 80%;
+}
+/* BuyAirtime Page end */
+
+/* Account Page Start */
+.Account {
+  display: flex;
+  list-style: none !important;
+  text-align: left;
+  gap: 30%;
+  color: #005662;
+  font-family: Fira Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.Account-detail {
+  list-style: none;
+  width: 160%;
+}
+.Account-detail-result {
+  list-style: none;
+  width: 57%;
+}
+.update-acct {
+  margin-left: 25%;
+    color: #fff;
+    background-color: #4FB3BF;
+    padding: 7%;
+    border: solid 1px #4FB3BF;
+    border-radius: 10%;
+    text-decoration: none;
+}
+/* Account Page end */
+
+/* Prices Page Start */
+.Prices {
+  padding-left: 10%;
+  width: 80%;
+}
+.Price {
+  font-family: Fira Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+.pricing {
+  color: #4FB3BF;
+  border-left: 3px solid  #4FB3BF;
+  
+
+}
+.mtn-price {
+  color: yellow;
+  border-left: 3px solid  yellow;
+  
+
+}
+.glo-price {
+  color: green;
+  border-left: 3px solid  green;
+  
+
+}
+.airtel-price {
+  color: red;
+  border-left: 3px solid  red;
+  
+
+}
+.etisalat-price {
+  color: black;
+  border-left: 3px solid  black;
+  
+
+}
+/* Prices Page end */
+
+/* logout Page Start */
+.logout-main {
+  margin-left: 8%;
+}
+/* logout Page end */
+
+
+/* Mobile View Start */
+@media screen and (max-width:748px) {
+  .BuyData-main {
+    margin-left: 0%;
+    width: 100%;
+  }
+  .BuyData-submain {
+    margin-top: 20%;
+    
+  }
+  .input-form {
+    width: 130%;
+    margin-left: -5%;
+  }
+  /* Fundwallet mobile view */
+  .fund-list {
+    margin-top: 20%;
+    margin-bottom: 5%;
+    margin-left: 0%;
+}
+  .fundwallet {
+    margin-left: 0%;
+    width: 100%;
+}
+  /* Fundwallet mobile view end */
+  
+  /* Logout mobile view */
+  .Logout-submain {
+    padding-bottom: 20%;
+    padding-left: 5%;
+    padding-top: 20%;
+    text-align: left !important;
+}
+.logout-row {
+  padding: 25% 0%;
+}
+  /* Logout mobile view end */
+
+  /* Account mobile view Start */
+  .Price {
+    font-size: 16px;
+    padding-top: 5%;
+    padding-bottom: 10%;
+  }
+  /* Account mobile view end */
+}
+/* Mobile View End */

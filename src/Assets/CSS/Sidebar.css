@@ -1,0 +1,127 @@
+.sidebar {
+display: flex;
+position: fixed;
+width: 18%;
+height: 1101px;
+flex-direction: column;
+align-items: flex-start;
+gap: 100px;
+flex-shrink: 0;
+background: #4FB3BF;
+}
+
+.wallet-balance {
+    /* margin-left: 5%; */
+    margin-top: 3%;
+}
+.sidebar-sticky {
+    width: 100%;
+}
+.sidebar-list {
+    list-style: none;
+    padding-top: 20%;
+    /* margin-left: 5%; */
+    text-align: left;
+    align-items: center;
+}
+li {
+    padding-bottom: 13%;
+}
+li a {
+    list-style: none !important;
+    color:  #005662 !important;
+    font-family: Fira Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+    width: 100%;
+    
+}
+.icon {
+    color: #005662; 
+    font-size: 20px;
+    padding-right: 5%;
+  }
+  .wallet-balance {
+    margin-left: 11%;
+    margin-top: -13%;
+    margin-bottom: -4%;font-family: Fira Sans;
+    /* font-size: 20px; */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.mobile-list {
+    padding-top: 10% !important;
+}
+.profile {
+    margin-left: 8.5%;
+    font-size: 18px;
+    margin-top: 3%;
+    display: flex;
+    font-family: Fira Sans;
+    /* font-size: 20px; */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.profile-icon {
+    color: #005662; 
+    font-size: 50px;
+    padding-right: 3%;
+  }
+  .profile-name {
+    font-size: 17px;
+}
+  
+  /* Mobile View */
+  @media screen and (max-width: 768px) {
+    .web {
+        display: none;
+    }
+
+    .title {
+        margin-right: 18%;
+    }
+    .wallet-balance {
+        margin-left: 27%;
+        margin-top: -15%;
+        color: #005662;
+        font-family: Fira Sans;
+    /* font-size: 20px; */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    }
+    .mobile-list {
+        padding-top: 10% !important;
+    }
+    ol, ul {
+        padding-left: 1rem !important;
+    }
+    .profile {
+        margin-left: -3.5%;
+        font-size: 18px;
+        margin-top: -32%;
+        display: flex;
+        color: #005662; 
+        font-family: Fira Sans;
+    /* font-size: 20px; */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    }
+    .profile-icon {
+        color: #005662; 
+        font-size: 50px;
+        padding-right: 3%;
+      }
+      .profile-name {
+        font-size: 17px;
+    }
+    .tv-sub {
+        width: 106% !important;
+    }
+  }

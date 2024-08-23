@@ -1,0 +1,86 @@
+.main {
+  background-color: #005662 !important;
+  left: 18%;
+  width: 82%;
+  float: right;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  justify-content: center;
+    align-items: center;
+    position: fixed;
+    padding-bottom: 1.25%;
+}
+.title a {
+  width: 101px;
+    height: 38px;
+    margin-left: 510%;
+    padding-bottom: 3%;
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    /* color: #264966; */
+    color: #4FB3BF;
+    text-decoration: none;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+}
+
+/* Mobile View Start */
+@media screen and (min-width:748px) {
+  .mobile {
+    display: none;
+  }
+  /* .main {
+    width: 100%;
+    left: 0%;
+  } */
+}
+
+
+@media screen and (max-width:748px) {
+  .faBars {
+    color: #4FB3BF; /* Change the color */
+    font-size: 24px; /* Change the size */
+    /* padding-left: 10%; */
+    padding-right: 5%;
+  }
+  .faBars-btn {
+  background-color: #005662 !important;
+  border-color: #4FB3BF;
+  }
+  .title {
+    width: 120px;
+  }
+  .title a {
+    margin-left: 0%;
+  }
+  .web {
+    display: none;
+  }
+  .main {
+    width: 100%;
+    left: 0%;
+  }
+  .offcanvas-header .btn-close {
+    margin-left: 88%;
+    padding-top: 10%;
+  }
+  .offcanvas {
+    width: 70% !important;
+    background-color: #4FB3BF !important;
+  }
+  .sidebar {
+    width: 65%;
+  }
+  .sidebar-list {
+    /* list-style: none; */
+    padding-top: 0%;
+    /* margin-left: 5%; */
+  }
+}
+
+/* Mobile View End */
+

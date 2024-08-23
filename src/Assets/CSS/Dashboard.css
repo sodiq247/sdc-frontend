@@ -1,0 +1,193 @@
+.dashboard-main {
+  padding-top: 8%;
+}
+
+.dashboard {
+  width: 80%;
+  margin-left: 19%;
+  border-radius: 5px;
+/* background: #FFF; */
+/* btn */
+/* box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25); */
+}
+.dashboard-child {
+  /* padding: 5% 3%; */
+  color: #005662;
+}
+.notification-div {
+  margin-top: 0% !important;
+}
+.status {
+  margin-bottom: 5% !important;
+
+}
+.bank-list {
+  margin: 0% 2%;
+}
+.bank-list Link {
+  list-style: none;
+    color:  #005662 ;
+    text-decoration: none !important;
+
+    font-family: Fira Sans;
+    /* font-size: 20px; */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.banks {
+  display: flex;
+  flex-direction: row;
+  margin: 1%;
+    padding: 1.5px;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  #4FB3BF;
+    width: 23%;
+    align-items: center;
+}
+
+.bank-acct {
+  padding:2% 4%;
+    text-align: left;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  rgb(255 65 0);
+    width: 100%;
+    color:  #005662 !important;
+     font-family: Fira Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    /* background: linear-gradient(6deg, rgb(255 65 0), rgb(233 119 0)) !important; */
+}
+.gtco-pic {
+  width: 20%;
+    margin-left: -4%;
+}
+.gtco-border {
+  border-left: 3px solid  rgb(255 65 0);
+  color:rgb(255 65 0) !important ;
+}
+.transaction-items {
+  display: flex;
+  flex-direction: row;
+  margin: 1%;
+    padding: 1%;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  #4FB3BF;
+    width: 23%;
+    align-items: center;
+
+}
+.wallet-items {
+  display: flex;
+  flex-direction: column;
+  margin: 2%;
+    padding: 1%;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  #4FB3BF;
+    width: 29%;
+    align-items: center;
+}
+
+.notification-div, .wallet-div {
+  width: 81%;
+  margin-left: 19%;
+  margin-top: 2%;
+}
+.notification-items{
+  display: flex;
+  flex-direction: column;
+  margin: 2%;
+    padding: 5%;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  #4FB3BF;
+    width: 29%;
+    align-items: center;
+}
+
+.services {
+  width: 80%;
+  margin-left: 19%;
+  margin-top: 2%;
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  margin: 1%;
+    padding: 3%;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 3px solid  #4FB3BF;
+    width: 23%;
+    align-items: center;
+    
+
+}
+.service, .transaction ,.transaction-items, .banks {
+  list-style: none;
+    color:  #005662 ;
+    text-decoration: none !important;
+    font-family: Fira Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Mobile View Start */
+@media screen and (max-width:748px) {
+  .dashboard, .notification-div, .wallet-div, .services {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  .welcome {
+    margin-top: 12%;
+  }
+  .col-6 {
+    flex: 0 0 auto;
+    width: 27%;
+}
+  .notification-items {
+    width: 95%;
+  }
+  .banks {
+    width: 48%;
+  }
+  .transaction {
+    margin: 1% -2%;
+  }
+  .transaction-items {
+    width: 48%;
+  }
+  .wallet-items {
+    width: 96%;
+  }
+  .service {
+    width: 47%;
+  }
+
+}
+/* Mobile View End */
+/* FundWallet Page Start */
+.fundwallet {
+  margin-left: 15%;
+  width: 90%;
+}
+.fund-list {
+  margin-left: 18%;
+}
+
+/* FundWallet Page End */
