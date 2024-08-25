@@ -33,9 +33,14 @@ const Login = (props) => {
 		setLoading(true);
 
 		let result = await accountServices.login(data);
-		if (result.code === 200) {
+		if (result.body.loggedIn === true ) {
 			localStorage.setItem("token", result.body.access_token);
+			console.log("token", result.body.access_token);
+			setMessage(result.message)
 			navigate("/dashboard");
+		} else {
+			console.log("result.message", result.body.error)
+			setMessage(result.body.error)
 		}
 
 		setLoading(false);

@@ -26,7 +26,7 @@ const Sidebar = () => {
       <div className='sidebar-sticky '>
         <div className='profile'>
           <FontAwesomeIcon icon={faCircleUser} className='profile-icon' />
-          <p className='profile-name'>Abdulrazaq sodiq</p>
+          <p className='profile-name'>Hi {state.name} {state.lastname}</p>
         </div>
         <div className='wallet-balance'>
           Wallet Balance: <br /> ₦{state.balance}

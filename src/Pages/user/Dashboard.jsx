@@ -1,5 +1,5 @@
 /** @format */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,21 +16,14 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
-// import gtco from "../../Assets/images/gtbank.jpeg";
 import { Link } from "react-router-dom";
 import Sidebar from "../../Components/Sidebar";
 import Header from "../../Components/Header";
-// import Wallet from "../../Components/Wallet";
 import { useWallet } from "../../Components/Wallet";
 
-// import BuyData from "./BuyData";
-
 const Dashboard = () => {
-  const { state, reduceWallet } = useWallet();
+  const { state } = useWallet();
 
-  const handleReduce = () => {
-    reduceWallet(50); // Or any other amount you want to reduce
-  };
   return (
     <div>
       <Header />
@@ -39,7 +32,7 @@ const Dashboard = () => {
         <div className='dashboard'>
           <Container className='dashboard-child'>
             <h2 className='welcome'>Welcome to Supreme Data Concept</h2>
-            <div className='greeting'>Good evening, Abdulrazaq Sodiq</div>
+            <div className='greeting'>Good evening, Hi {state.name} {state.lastname}</div>
             <div className='status'>
               Refer people to Husmodata.com and get 5% of their first payment
               <br />
@@ -69,7 +62,6 @@ const Dashboard = () => {
             <Row>
               <Col lg={12} xs={12} sm={12}>
                 <div className='bank-acct' id='gtbank'>
-                  {/* <img src={gtco} alt="gtco logo" className="gtco-pic" /> */}
                   <h3>
                     Account Number: 0807547109
                     <br />
@@ -106,19 +98,17 @@ const Dashboard = () => {
                 <Col lg={3} xs={6} sm={4}>
                   <FontAwesomeIcon icon={faWallet} className='icon' />
                 </Col>
-                Wallet summry
+                Wallet summary
               </a>
             </Row>
           </Container>
         </div>
         <div className='notification-div'>
-          <Container className=''>
+          <Container>
             <Row>
               <Col lg={4} xs={12} sm={12} className='wallet-items'>
                 <p>Wallet Balance</p>
-                {/* <h4><Wallet /></h4> */}
-                <p>Wallet Balance: ₦{state.balance}.00</p>
-                <button onClick={handleReduce}>Reduce ₦50</button>
+                <p>Wallet Balance: ₦{state.balance}</p>
               </Col>
               <Col lg={4} xs={12} sm={12} className='wallet-items'>
                 <p>Referral Bonus</p>
@@ -132,39 +122,38 @@ const Dashboard = () => {
           </Container>
         </div>
         <div className='notification-div'>
-          <Container className=''>
+          <Container>
             <Row>
               <Col lg={4} className='notification-items'>
                 <h3>Notifications</h3>
                 <p>
-                  Payment successful you account has been credited with sum of
-                  #2350 .
+                  Payment successful, your account has been credited with the sum of
+                  ₦2350.
                 </p>
-                <Button variant='info'>all message</Button>{" "}
+                <Button variant='info'>All Messages</Button>
               </Col>
               <Col lg={4} className='notification-items'>
                 <h3>FAQs:</h3>
                 <p>
                   Please go through them to have a better knowledge of this
-                  platform
+                  platform.
                 </p>
-                <Button variant='secondary'>FAQ?</Button>{" "}
+                <Button variant='secondary'>FAQ?</Button>
               </Col>
               <Col lg={4} className='notification-items'>
                 <h3>Support Team:</h3>
                 <p>
                   Have anything to say to us? Please contact our Support Team on
-                  Whatsapp
+                  WhatsApp.
                 </p>
-                <Button variant='success'>Whatsapp</Button>{" "}
+                <Button variant='success'>WhatsApp</Button>
               </Col>
             </Row>
           </Container>
         </div>
         <div className='services'>
-          <Container className=''>
+          <Container>
             <Row>
-              {/* <Link to="/BuyData">Buy Airtime</Link> */}
               <Link to='/BuyAirTime' className='service'>
                 <Col lg={3} xs={6} sm={4}>
                   <FontAwesomeIcon icon={faPhoneVolume} className='icon' />
@@ -218,24 +207,6 @@ const Dashboard = () => {
             </Row>
             <Row>
               <Link to='/Logout' className='service'>
-                <Col lg={3} xs={6} sm={4}>
-                  <FontAwesomeIcon icon={faRightFromBracket} className='icon' />
-                </Col>
-                Log Out
-              </Link>
-              <Link to='/BuyAirTime' className='service'>
-                <Col lg={3} xs={6} sm={4}>
-                  <FontAwesomeIcon icon={faRightFromBracket} className='icon' />
-                </Col>
-                Log Out
-              </Link>
-              <Link to='/BuyAirTime' className='service'>
-                <Col lg={3} xs={6} sm={4}>
-                  <FontAwesomeIcon icon={faRightFromBracket} className='icon' />
-                </Col>
-                Log Out
-              </Link>
-              <Link to='/BuyAirTime' className='service'>
                 <Col lg={3} xs={6} sm={4}>
                   <FontAwesomeIcon icon={faRightFromBracket} className='icon' />
                 </Col>
