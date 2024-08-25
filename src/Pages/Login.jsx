@@ -8,14 +8,16 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-// import accountService from "../Services/authServices";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import accountServices from "../Services/authServices";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
+
 const Login = (props) => {
 	const [message, setMessage] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [showPassword, setShowPassword] = useState(false); // State for password visibility
 	const navigate = useNavigate();
 	const validationSchema = Yup.object().shape({
 		username: Yup.string()
@@ -33,18 +35,24 @@ const Login = (props) => {
 		setLoading(true);
 
 		let result = await accountServices.login(data);
-		if (result.body.loggedIn === true ) {
+		if (result.body.loggedIn === true) {
 			localStorage.setItem("token", result.body.access_token);
 			console.log("token", result.body.access_token);
-			setMessage(result.message)
+			setMessage(result.message);
 			navigate("/dashboard");
 		} else {
-			console.log("result.message", result.body.error)
-			setMessage(result.body.error)
+			console.log("result.message", result.body.error);
+			setMessage(result.body.error);
 		}
 
 		setLoading(false);
 	};
+
+	// Function to toggle password visibility
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
+
 	return (
 		<div>
 			<Container className="BuyData-main logout-main">
@@ -73,15 +81,23 @@ const Login = (props) => {
 									</Form.Group>
 									<Form.Group>
 										<Form.Label className="label">Password</Form.Label>
-										<input
-											className="mb-3 form-control"
-											type="password"
-											name="password"
-											placeholder="Enter Password"
-											{...register("password")}
-										/>
+										<div className="input-group">
+											<input
+												className="mb-3 form-control"
+												type={showPassword ? "text" : "password"} // Toggle input type
+												name="password"
+												placeholder="Enter Password"
+												{...register("password")}
+											/>
+											<span
+												className="input-group-text"
+												onClick={togglePasswordVisibility}
+												style={{ cursor: "pointer" }}
+											>
+												{showPassword ? <FaEyeSlash /> : <FaEye />}
+											</span>
+										</div>
 									</Form.Group>
-									{/* <link to='/Logout'>Forgot Password ?</link> */}
 									<Button type="submit" className="Buy-now-btn">
 										Login
 									</Button>{" "}
