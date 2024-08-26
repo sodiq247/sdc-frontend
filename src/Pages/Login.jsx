@@ -37,11 +37,11 @@ const Login = (props) => {
 		let result = await accountServices.login(data);
 		if (result.body.loggedIn === true) {
 			localStorage.setItem("token", result.body.access_token);
-			console.log("token", result.body.access_token);
+			// console.log("token", result.body.access_token);
 			setMessage(result.message);
 			navigate("/dashboard");
 		} else {
-			console.log("result.message", result.body.error);
+			// console.log("result.message", result.body.error);
 			setMessage(result.body.error);
 		}
 
@@ -81,9 +81,9 @@ const Login = (props) => {
 									</Form.Group>
 									<Form.Group>
 										<Form.Label className="label">Password</Form.Label>
-										<div className="input-group">
+										<div className="input-group  flex justify-center">
 											<input
-												className="mb-3 form-control"
+												className=" form-control"
 												type={showPassword ? "text" : "password"} // Toggle input type
 												name="password"
 												placeholder="Enter Password"

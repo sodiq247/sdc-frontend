@@ -22,13 +22,13 @@ const accountServices = {
     walletBalance: async () => {
         try {
             const token = localStorage.getItem("token");
-			console.log("tooooken", token)
+			// console.log("tooooken", token)
             if (!token) throw new Error("Token not found");
             
             let response = await axios.get(`${baseUrl}verify`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log("Wallet balance response:", response);
+            // console.log("Wallet balance response:", response);
             return response;
         } catch (error) {
             console.error("Error fetching wallet balance:", error);

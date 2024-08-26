@@ -32,8 +32,9 @@ const BuyData = (props) => {
       setMessage("Insufficient balance");
     } else {
       let response = await vasServices.dataBundle(data);
-      // console.log(response);
-      reduceWallet(amountToPay);
+      console.log(response);
+      // console.log("response.Status", response.body.api_response);
+      // reduceWallet(amountToPay);
 
       console.log("Transaction successful");
       setMessage("Transaction successful");
