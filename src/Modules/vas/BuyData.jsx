@@ -12,11 +12,10 @@ import { useForm } from "react-hook-form";
 import vasServices from "../../Services/vasServices";
 import dataTypes from "../Plans/dataTypes.json";
 import { useWallet } from "../../Components/Wallet";
-//import { propTypes } from "react-bootstrap/esm/Image";
 
 const BuyData = (props) => {
   const { handleSubmit, register } = useForm();
-  const { state, reduceWallet } = useWallet();
+  const { state } = useWallet();
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [selectedDataType, setSelectedDataType] = useState("");
   const [selectedPlanId, setSelectedPlanId] = useState("");
@@ -27,37 +26,31 @@ const BuyData = (props) => {
 
   const dataBundle = async (data) => {
     const { amount } = data;
-    if (balance < amount) {
-      console.log("Insufficient balance");
+    // console.log("balance", balance);
+    // console.log("amount", amountToPay);
+
+    if (balance < amountToPay) {
       setMessage("Insufficient balance");
     } else {
-      let response = await vasServices.dataBundle(data);
-      console.log(response);
-      // console.log("response.Status", response.body.api_response);
-      // reduceWallet(amountToPay);
+      try {
+        let response = await vasServices.dataBundle({ ...data, amount: amountToPay });
 
-      console.log("Transaction successful");
-      setMessage("Transaction successful");
-      // if (response.status === true) {
-      //   setMessage(response.message);
-      //   setInitialized(2);
-      //   setLoading(false);
-      // } else {
-      //   setMessage(response.message);
-      //   setLoading(false);
-      // }
+        if (response.error) {
+          setMessage("Transaction unsuccessful");
+        } else {
+          setMessage(response.api_response || "Transaction successful");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+        setMessage("Transaction unsuccessful");
+      }
     }
   };
 
   const handleNetworkChange = (event) => {
     const network = event.target.value;
     setSelectedNetwork(network);
-    console.log("d",network)
-    let selectedPlans = dataTypes[network];
-    console.log("d",selectedPlans)
-    console.log(selectedPlans);
-    
-    
+
     // Reset selected plan, data type, and amount when network changes
     setSelectedPlanId("");
     setSelectedDataType("");
@@ -86,13 +79,8 @@ const BuyData = (props) => {
 
       if (selectedPlan) {
         const amount = parseFloat(selectedPlan.amount);
-        console.log("amount..", amount)
-        const amountToPay = amount + amount * 0.2; // Add 50 to the plan amount
-        // Round to 2 decimal places
-        const roundedAmountToPay = Math.round(amountToPay * 100) / 100;
-        setAmountToPay(roundedAmountToPay);
-        console.log("amount..", amountToPay)
-
+        const amountToPay = Math.round((amount + amount * 0.2) * 100) / 100; // Add 20% and round to 2 decimal places
+        setAmountToPay(amountToPay);
       }
     }
   };
@@ -106,7 +94,6 @@ const BuyData = (props) => {
           <Row>
             <Col sm={8} xs={{ order: "" }} className='BuyData-form'>
               {message && <div className='alert alert-info'>{message}</div>}
-              {/* <Form onSubmit={(e) => handleSubmit((data) => dataBundle(data, e))}> */}
               <Form onSubmit={handleSubmit(dataBundle)}>
                 <Form.Label className='label'>Network</Form.Label>
                 <Form.Select
@@ -119,7 +106,6 @@ const BuyData = (props) => {
                   <option value='2'>GLO</option>
                   <option value='3'>9mobile</option>
                   <option value='4'>Airtel</option>
-                  
                 </Form.Select>
                 <Form.Label className='label phone-label'>Data Type</Form.Label>
                 <Form.Select
@@ -134,7 +120,6 @@ const BuyData = (props) => {
                         {plan}
                       </option>
                     ))}
-                  
                 </Form.Select>
                 <p className='mb-3 plan-note'>
                   Select Plan Type SME or GIFTING or CORPORATE GIFTING
@@ -143,7 +128,7 @@ const BuyData = (props) => {
                 <Form.Select
                   aria-label='Default select example'
                   className='mb-3'
-                  {...register("plan", { onChange: updateAmountToPay })}
+                  {...register("plan")}
                   value={selectedPlanId}
                   onChange={handlePlanChange}>
                   <option value=''>Select a plan</option>
@@ -156,30 +141,16 @@ const BuyData = (props) => {
                     ))}
                 </Form.Select>
                 <Form.Group>
-                  <Form.Label className='label phone-label'>
-                    Phone Number
-                  </Form.Label>
+                  <Form.Label className='label phone-label'>Phone Number</Form.Label>
                   <Form.Control
-                    type='mobile_number'
-                    name='mobile_number'
+                    type='text'
                     placeholder='Enter phone number'
                     className='mb-3'
                     {...register("mobile_number")}
                   />
                 </Form.Group>
-                {/* <Form.Group>
-                  <Form.Label className='label'>Amount</Form.Label>
-                  <Form.Control
-                    type=''
-                    placeholder='Enter your amount'
-                    className='mb-3'
-                    {...register("amount", { onChange: updateAmountToPay })}
-                  />
-                </Form.Group> */}
                 <Form.Group>
-                  <Form.Label className='label phone-label'>
-                    Amount to pay
-                  </Form.Label>
+                  <Form.Label className='label phone-label'>Amount to pay</Form.Label>
                   <Form.Control
                     type='text'
                     value={amountToPay}
@@ -187,7 +158,7 @@ const BuyData = (props) => {
                     className='mb-3'
                   />
                 </Form.Group>
-                <Button className='Buy-now-btn' type='submit' value=''>
+                <Button className='Buy-now-btn' type='submit'>
                   Buy Now
                 </Button>{" "}
               </Form>
