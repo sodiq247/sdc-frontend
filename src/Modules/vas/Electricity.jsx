@@ -41,6 +41,7 @@ const Electricity = () => {
             handleShow();
         } catch (error) {
             console.error(error);
+            console.log("An error occurred while validating the meter.", error);
             setMessage("An error occurred while validating the meter.");
         }
     };
@@ -65,13 +66,14 @@ const Electricity = () => {
 
                 let response = await vasServices.electric(submissionData);
                 reduceWallet(amountToPay);
-                setMessage("Transaction successful");
+                setMessage("Transaction Successful");
             } catch (error) {
                 console.error(error);
-                setMessage("An error occurred during the transaction.");
+                console.log("An error occurred during the transaction.", error);
+                setMessage("Transaction Unsuccessful");
             }
         }
-        // handleClose();
+         handleClose();
     };
 
     const updateAmountToPay = () => {
