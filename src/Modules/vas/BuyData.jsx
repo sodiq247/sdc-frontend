@@ -1,5 +1,3 @@
-/** @format */
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,46 +10,79 @@ import { useForm } from "react-hook-form";
 import vasServices from "../../Services/vasServices";
 import dataTypes from "../Plans/dataTypes.json";
 import { useWallet } from "../../Components/Wallet";
+import Modal from "react-bootstrap/Modal";
 
 const BuyData = (props) => {
-  const { handleSubmit, register } = useForm();
-  const { state } = useWallet();
+  const { handleSubmit, register, watch } = useForm();
+  const { state, reduceWallet } = useWallet();
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [selectedDataType, setSelectedDataType] = useState("");
   const [selectedPlanId, setSelectedPlanId] = useState("");
   const [amountToPay, setAmountToPay] = useState(0);
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [transactionDetails, setTransactionDetails] = useState({
+    network: "",
+    data_type: "",
+    mobile_number: "",
+    amount: 0,
+  });
 
   const balance = state.balance;
 
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => {
+    setShowModal(false);
+    window.location.reload(); // Reload the page when the modal is closed
+  };
+
   const dataBundle = async (data) => {
-    const { amount } = data;
-    // console.log("balance", balance);
-    // console.log("amount", amountToPay);
+    const { mobile_number } = data;
 
     if (balance < amountToPay) {
       setMessage("Insufficient balance");
     } else {
-      try {
-        let response = await vasServices.dataBundle({ ...data, amount: amountToPay });
+      // Set transaction details for the modal
+      setTransactionDetails({
+        network: selectedNetwork,
+        data_type: selectedDataType,
+        mobile_number,
+        amount: amountToPay,
+      });
 
-        if (response.error) {
-          setMessage("Transaction unsuccessful");
-        } else {
-          setMessage(response.api_response || "Transaction successful");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
+      // Show the modal
+      handleShow();
+    }
+  };
+
+  const handleProceed = async () => {
+    try {
+      const data = {
+        network: selectedNetwork,
+        data_type: selectedDataType,
+        plan: selectedPlanId,
+        mobile_number: watch("mobile_number"),
+        amount: amountToPay,
+      };
+
+      let response = await vasServices.dataBundle(data);
+      reduceWallet(amountToPay);
+
+      if (response.error) {
         setMessage("Transaction unsuccessful");
+      } else {
+        setMessage(response.api_response || "Transaction successful");
       }
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error occurred during transaction:", error);
+      setMessage("Transaction unsuccessful");
     }
   };
 
   const handleNetworkChange = (event) => {
     const network = event.target.value;
     setSelectedNetwork(network);
-
-    // Reset selected plan, data type, and amount when network changes
     setSelectedPlanId("");
     setSelectedDataType("");
     setAmountToPay(0);
@@ -60,8 +91,6 @@ const BuyData = (props) => {
   const handleDataTypeChange = (event) => {
     const dataType = event.target.value;
     setSelectedDataType(dataType);
-
-    // Reset selected plan and amount when data type changes
     setSelectedPlanId("");
     setAmountToPay(0);
   };
@@ -89,31 +118,33 @@ const BuyData = (props) => {
     <div>
       <Header />
       <Sidebar />
-      <Container className='BuyData-main'>
-        <div className='BuyData-submain Form-submain'>
+      <Container className="BuyData-main">
+        <div className="BuyData-submain Form-submain">
           <Row>
-            <Col sm={8} xs={{ order: "" }} className='BuyData-form'>
-              {message && <div className='alert alert-info'>{message}</div>}
+            <Col sm={8} xs={{ order: "" }} className="BuyData-form">
+              {message && <div className="alert alert-info">{message}</div>}
               <Form onSubmit={handleSubmit(dataBundle)}>
-                <Form.Label className='label'>Network</Form.Label>
+                <Form.Label className="label">Network</Form.Label>
                 <Form.Select
-                  aria-label='Default select example'
-                  className='mb-3'
+                  aria-label="Default select example"
+                  className="mb-3"
                   {...register("network")}
-                  onChange={handleNetworkChange}>
-                  <option value=''>Select a network</option>
-                  <option value='1'>MTN</option>
-                  <option value='2'>GLO</option>
-                  <option value='3'>9mobile</option>
-                  <option value='4'>Airtel</option>
+                  onChange={handleNetworkChange}
+                >
+                  <option value="">Select a network</option>
+                  <option value="1">MTN</option>
+                  <option value="2">GLO</option>
+                  <option value="3">9mobile</option>
+                  <option value="4">Airtel</option>
                 </Form.Select>
-                <Form.Label className='label phone-label'>Data Type</Form.Label>
+                <Form.Label className="label phone-label">Data Type</Form.Label>
                 <Form.Select
-                  aria-label='Select a network'
-                  className='mb-3'
+                  aria-label="Select a network"
+                  className="mb-3"
                   value={selectedDataType}
-                  onChange={handleDataTypeChange}>
-                  <option value=''>Select a data type</option>
+                  onChange={handleDataTypeChange}
+                >
+                  <option value="">Select a data type</option>
                   {selectedNetwork &&
                     Object.keys(dataTypes[selectedNetwork]).map((plan) => (
                       <option key={plan} value={plan}>
@@ -121,17 +152,18 @@ const BuyData = (props) => {
                       </option>
                     ))}
                 </Form.Select>
-                <p className='mb-3 plan-note'>
+                <p className="mb-3 plan-note">
                   Select Plan Type SME or GIFTING or CORPORATE GIFTING
                 </p>
-                <Form.Label className='label'>Plan</Form.Label>
+                <Form.Label className="label">Plan</Form.Label>
                 <Form.Select
-                  aria-label='Default select example'
-                  className='mb-3'
+                  aria-label="Default select example"
+                  className="mb-3"
                   {...register("plan")}
                   value={selectedPlanId}
-                  onChange={handlePlanChange}>
-                  <option value=''>Select a plan</option>
+                  onChange={handlePlanChange}
+                >
+                  <option value="">Select a plan</option>
                   {selectedNetwork &&
                     selectedDataType &&
                     dataTypes[selectedNetwork][selectedDataType].map((plan) => (
@@ -141,26 +173,56 @@ const BuyData = (props) => {
                     ))}
                 </Form.Select>
                 <Form.Group>
-                  <Form.Label className='label phone-label'>Phone Number</Form.Label>
+                  <Form.Label className="label phone-label">Phone Number</Form.Label>
                   <Form.Control
-                    type='text'
-                    placeholder='Enter phone number'
-                    className='mb-3'
+                    type="text"
+                    placeholder="Enter phone number"
+                    className="mb-3"
                     {...register("mobile_number")}
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label className='label phone-label'>Amount to pay</Form.Label>
+                  <Form.Label className="label phone-label">Amount to pay</Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     value={amountToPay}
                     readOnly
-                    className='mb-3'
+                    className="mb-3"
                   />
                 </Form.Group>
-                <Button className='Buy-now-btn' type='submit'>
+                <Button className="Buy-now-btn" type="submit">
                   Buy Now
-                </Button>{" "}
+                </Button>
+                {/* Modal for displaying transaction details */}
+                <Modal
+                  show={showModal}
+                  size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                  onHide={handleClose}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Transaction Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                {message && <div className='alert alert-info'>{message}</div>}
+
+                    <p>
+                      You're about to buy {transactionDetails.data_type} data worth ₦
+                      {transactionDetails.amount} for{" "}
+                      {transactionDetails.mobile_number} on{" "}
+                      {transactionDetails.network}
+                    </p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button variant="primary" onClick={handleProceed}>
+                      Proceed
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </Form>
             </Col>
             <Col sm={4} xs={{ order: "" }}>

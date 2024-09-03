@@ -26,7 +26,10 @@ const BuyAirtime = (props) => {
   });
 
   const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    window.location.reload(); // Reload the page when the modal is closed
+  };
 
   const balance = state.balance;
 
@@ -58,7 +61,7 @@ const BuyAirtime = (props) => {
       const data = {
         amount: watch("amount"),
         network: watch("network"),
-        airtime_type: watch("airtime_type"),
+        airtime_type: watch("VTU"),
         mobile_number: watch("mobile_number"),
       };
 
@@ -71,6 +74,7 @@ const BuyAirtime = (props) => {
       // Handle the response as needed
     } catch (error) {
       console.error("Error occurred during transaction:", error);
+      setMessage("Transaction unsuccessful");
       // Handle error as needed
     }
   };
@@ -108,7 +112,7 @@ const BuyAirtime = (props) => {
                   <option value='3'>Airtel</option>
                   <option value='3'>9mobile</option>
                 </Form.Select>
-                <Form.Label className='label phone-label'>
+                {/* <Form.Label className='label phone-label'>
                   Airtime type
                 </Form.Label>
                 <Form.Select
@@ -119,8 +123,8 @@ const BuyAirtime = (props) => {
                   <option value='VTU'>VTU</option>
                   <option value='Share and Sell'>SHARE and SELL</option>
                 </Form.Select>
-                <p className='mb-3 plan-note'>VTU or share and Sell</p>
-                <Form.Group>
+                <p className='mb-3 plan-note'>VTU or share and Sell</p>*/}
+                <Form.Group> 
                   <Form.Label className='label phone-label'>
                     Phone Number
                   </Form.Label>
@@ -166,6 +170,8 @@ const BuyAirtime = (props) => {
                     {/* {message && <div className="alert alert-info">{message}</div>} */}
                   </Modal.Header>
                   <Modal.Body>
+                {message && <div className='alert alert-info'>{message}</div>}
+
                     <p>
                       You're about to send{" "}
                       {/* {transactionDetails.network}{" "} */}
