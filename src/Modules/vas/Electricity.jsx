@@ -73,7 +73,10 @@ const Electricity = () => {
                 setMessage("Transaction Unsuccessful");
             }
         }
-         handleClose();
+        setTimeout(() => {
+            handleClose();
+        }, 5000);
+         
     };
 
     const updateAmountToPay = () => {
@@ -96,7 +99,7 @@ const Electricity = () => {
                         <Col sm={8} className="BuyData-form BuyAirtime">
                             <Form className="input-form" onSubmit={handleSubmit(validateMeter)}>
                                 <Form.Label className="label">Disco Name</Form.Label>
-                                <Form.Select aria-label="Disco name" className="mb-3" {...register("disconame")}>
+                                <Form.Select aria-label="Disco name" className="mb-3" required {...register("disconame")}>
                                     <option value="">Select Disco</option>
                                     <option value="Ikeja Electric">Ikeja Electric</option>
                                     <option value="Eko Electric">Eko Electric</option>
@@ -116,11 +119,12 @@ const Electricity = () => {
                                     type="text"
                                     placeholder="Enter Meter Number"
                                     className="mb-3"
+                                    required
                                     {...register("meternumber")}
                                 />
                                 
                                 <Form.Label className="label phone-label">Meter Type</Form.Label>
-                                <Form.Select aria-label="Meter type" className="mb-3" {...register("mtype")}>
+                                <Form.Select aria-label="Meter type" className="mb-3" required {...register("mtype")}>
                                     <option value="">Select Meter Type</option>
                                     <option value="Prepaid">Prepaid</option>
                                     <option value="Postpaid">Postpaid</option>
@@ -131,6 +135,7 @@ const Electricity = () => {
                                     type="number"
                                     placeholder="Enter Amount"
                                     className="mb-3"
+                                    required
                                     {...register("amount", { onChange: updateAmountToPay })}
                                 />
 
