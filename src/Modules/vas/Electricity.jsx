@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Header from "../../Components/Header";
 import Sidebar from "../../Components/Sidebar";
 import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner'; // Import Spinner
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import vasServices from "../../Services/vasServices";
@@ -16,6 +17,7 @@ import { useWallet } from "../../Components/Wallet";
 const Electricity = () => {
     const { handleSubmit, register, watch } = useForm();
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false); // Add loading state
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { state, reduceWallet } = useWallet();
@@ -26,6 +28,7 @@ const Electricity = () => {
     const balance = state.balance;
 
     const validateMeter = async (data) => {
+        setLoading(true); // Start loading
         try {
             const response = await vasServices.validateMeter(data);
             setMessage(`${response.name} - ${response.address}`);
@@ -43,10 +46,16 @@ const Electricity = () => {
             console.error(error);
             console.log("An error occurred while validating the meter.", error);
             setMessage("An error occurred while validating the meter.");
+        } finally {
+            setLoading(false); // Stop loading
         }
+        setLoading(false); // Stop loading
+
     };
 
     const electric = async () => {
+        setLoading(true); // Start loading
+
         if (!validatedData.disconame || !validatedData.meternumber || !validatedData.mtype) {
             setMessage("Please validate the meter first.");
             return;
@@ -73,10 +82,10 @@ const Electricity = () => {
                 setMessage("Transaction Unsuccessful");
             }
         }
+        setLoading(false);
         setTimeout(() => {
             handleClose();
         }, 5000);
-         
     };
 
     const updateAmountToPay = () => {
@@ -139,8 +148,15 @@ const Electricity = () => {
                                     {...register("amount", { onChange: updateAmountToPay })}
                                 />
 
-                                <Button className="Buy-now-btn" type="submit">
-                                    Validate
+                                <Button className="Buy-now-btn" type="submit" disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            <Spinner animation="border" size="sm" />
+                                            {" "} Validating...
+                                        </>
+                                    ) : (
+                                        "Validate"
+                                    )}
                                 </Button>
                             </Form>
                         </Col>
@@ -188,9 +204,19 @@ const Electricity = () => {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={electric}>
+                        {/* <Button variant="primary" onClick={electric}>
                             Proceed
-                        </Button>
+                        </Button> */}
+                         <Button variant="primary" onClick={electric} disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            <Spinner animation="border" size="sm" />
+                                            {" "} Proceeding...
+                                        </>
+                                    ) : (
+                                        "Proceed"
+                                    )}
+                                </Button>
                     </Modal.Footer>
                 </Modal>
             </Container>

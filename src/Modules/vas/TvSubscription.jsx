@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Modal, Spinner } from "react-bootstrap";
 import Header from "../../Components/Header";
 import Sidebar from "../../Components/Sidebar";
 import { useForm } from "react-hook-form";
@@ -7,91 +7,78 @@ import { useWallet } from "../../Components/Wallet";
 import vasServices from "../../Services/vasServices";
 import tvPlans from "../Plans/tvPlans.json";
 
-const TvSubscription = (props) => {
+const TvSubscription = () => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const { handleSubmit, register } = useForm();
-  const { state, reduceWallet } = useWallet();
-  const [selectedTvType, setSelectedTvType] = useState("");
-  const [selectedPlanId, setSelectedPlanId] = useState(""); // Initialize selectedTvPlan here
+  const [loading, setLoading] = useState(false);
   const [amountToPay, setAmountToPay] = useState(0);
   const [message, setMessage] = useState("");
-
+  const [selectedTvType, setSelectedTvType] = useState("");
+  const [selectedPlanId, setSelectedPlanId] = useState("");
+  const [validatedData, setValidatedData] = useState({});
+  const { handleSubmit, register, watch } = useForm();
+  const { state, reduceWallet } = useWallet();
   const balance = state.balance;
 
-  const validateIUC = async (data) => {
-    console.log("response...", data);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
+  const validateIUC = async (data) => {
+    setLoading(true);
     try {
       const response = await vasServices.validateIUC(data);
-      console.log(response);
+      setValidatedData(data);
+      setMessage(`${response.name} - ${response.address}`);
+      handleShow();
     } catch (error) {
-      console.error(error);
+      console.error("An error occurred while validating the meter.", error);
       setMessage("An error occurred while validating the meter.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const cableTVForm = () => {
-    const cableTVForm = document.getElementById("cableTV-form");
-    const validateIUCForm = document.getElementById("validate-IUCform");
-
-    if (cableTVForm.classList.contains("d-none")) {
-      cableTVForm.classList.remove("d-none");
-      validateIUCForm.classList.add("d-none");
-      setShow(false);
-    }
-  };
-
-  const cabletv = async (data) => {
-    console.log("response...", data);
+  const cabletv = async () => {
+    setLoading(true);
 
     if (balance < amountToPay) {
-      console.log("Insufficient balance");
       setMessage("Insufficient balance");
     } else {
-      let response = await vasServices.cablesub(data);
-      console.log(response);
-      reduceWallet(amountToPay);
-
-      console.log("Transaction successful");
-      setMessage("Transaction successful");
+      try {
+        const response = await vasServices.cablesub(validatedData);
+        reduceWallet(amountToPay);
+        setMessage("Transaction successful");
+      } catch (error) {
+        console.error("An error occurred during the transaction.", error);
+        setMessage("Transaction Unsuccessful");
+      }
     }
+    setLoading(false);
+    setTimeout(() => {
+      handleClose();
+    }, 5000);
   };
 
   const handleTvTypeChange = (event) => {
     const tvType = event.target.value;
     setSelectedTvType(tvType);
-    // Reset selected plan and amount when data type changes
     setSelectedPlanId("");
-
     setAmountToPay(0);
   };
 
   const handleTvPlanChange = (event) => {
     const planId = event.target.value;
-
     setSelectedPlanId(planId);
     updateAmountToPay(planId);
   };
 
   const updateAmountToPay = (planId) => {
-
     if (selectedTvType && planId) {
-   
-
       const selectedPlans = tvPlans[selectedTvType][planId];
-      const selectedPlan = selectedPlans
-      console.log("checking..", selectedPlans)
-
-      if (selectedPlan) {
-        const amount = parseFloat(selectedPlan.amount);
-        console.log("amount..", amount)
-        const amountToPay = amount + 100;
-        // const amountToPay = amountCharge - amountCharge * 0.015; // 1.5% discount
+      if (selectedPlans) {
+        const amount = parseFloat(selectedPlans.amount);
+        const amountToPay = amount + 100; // Adjust this calculation if needed
         const roundedAmountToPay = Math.round(amountToPay * 100) / 100;
         setAmountToPay(roundedAmountToPay);
-        console.log("Updated Amount to Pay:", roundedAmountToPay);
       }
     }
   };
@@ -100,77 +87,62 @@ const TvSubscription = (props) => {
     <div>
       <Header />
       <Sidebar />
-      <Container className='BuyData-main'>
-        <div className='BuyData-submain Form-submain'>
+      <Container className="BuyData-main">
+        <div className="BuyData-submain Form-submain">
           <Row>
-            <Col sm={8} xs={{ order: "" }} className='BuyData-form BuyAirtime'>
-              <Form
-                className=' input-form'
-                id='validate-IUCform'
-                onSubmit={handleSubmit(validateIUC)}>
-                <Form.Label className='label'>CableTV Name</Form.Label>
-                <Form.Select
-                  aria-label='Default select example'
-                  className='mb-3'
-                  {...register("cablename")}>
-                  <option>Select a CableTV</option>
-                  <option value='GOTV'>GOTV</option>
-                  <option value='DSTV'>DSTV</option>
-                  <option value='STARTIME'>STARTIME</option>
+            <Col sm={8} className="BuyData-form BuyAirtime">
+              <Form className="input-form" onSubmit={handleSubmit(validateIUC)}>
+                <Form.Label className="label">Cable TV Name</Form.Label>
+                <Form.Select aria-label="Cable TV Name" className="mb-3" {...register("cablename")}>
+                  <option disabled >Select a Cable TV</option>
+                  <option value="GOTV">GOTV</option>
+                  <option value="DSTV">DSTV</option>
+                  <option value="STARTIME">STARTIME</option>
                 </Form.Select>
-                <Form.Label className='label'>
-                  Smart Card Number / IUC Number
-                </Form.Label>
+                <Form.Label className="label">Smart Card Number / IUC Number</Form.Label>
                 <Form.Control
-                  type='phone-number'
-                  placeholder='200'
-                  className='mb-3'
+                  type="text"
+                  placeholder="Enter Smart Card Number"
+                  className="mb-3"
                   {...register("smart_card_number")}
                 />
-                <Button
-                  className='Buy-now-btn'
-                  onClick={handleShow}
-                  type='submit'>
-                  Validate
-                </Button>{" "}
+                <Button className="Buy-now-btn" type="submit" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Spinner animation="border" size="sm" />
+                      {" "} Validating...
+                    </>
+                  ) : (
+                    "Validate"
+                  )}
+                </Button>
               </Form>
-              <Form
-                className='d-none input-form'
-                id='cableTV-form'
-                onSubmit={handleSubmit(cabletv)}>
-                {message && <div className='alert alert-info'>{message}</div>}
-                <Form.Label className='label'>Cable-TV Name</Form.Label>
+              <Form className={`input-form ${!show ? 'd-none' : ''}`} onSubmit={handleSubmit(cabletv)}>
+                {message && <div className="alert alert-info">{message}</div>}
+                <Form.Label className="label">Cable TV Name</Form.Label>
                 <Form.Select
-                  aria-label='Default select example'
-                  className='mb-3'
+                  aria-label="Cable TV Name"
+                  className="mb-3"
                   value={selectedTvType}
                   {...register("cablename")}
-                  onChange={handleTvTypeChange}>
-                  <option>Select a CableTV</option>
-                  <option value='1'>GOTV</option>
-                  <option value='2'>DSTV</option>
-                  <option value='3'>STARTIME</option>
+                  onChange={handleTvTypeChange}
+                >
+                  <option>Select a Cable TV</option>
+                  <option value="1">GOTV</option>
+                  <option value="2">DSTV</option>
+                  <option value="3">STARTIME</option>
                 </Form.Select>
-                <Form.Group>
-                  <Form.Label className='label'>
-                    Smart Card Number / IUC Number
-                  </Form.Label>
-                  <Form.Control
-                    type='phone-number'
-                    placeholder='200'
-                    className='mb-3'
-                    {...register("smart_card_number")}
-                  />
-                </Form.Group>
-                <Form.Label className='label'>Cable-Tv Plan</Form.Label>
+                <Form.Label className="label">Cable TV Plan</Form.Label>
                 <Form.Select
-                  aria-label='Default select example'
-                  className='mb-3'
-                  {...register("cableplan", { onChange: updateAmountToPay })}
+                  aria-label="Cable TV Plan"
+                  className="mb-3"
+                  {...register("cableplan")}
                   value={selectedPlanId}
-                  onChange={handleTvPlanChange}>
-                  <option value=''>Select a plan</option>
+                  onChange={handleTvPlanChange}
+                >
+                  <option value="">Select a plan</option>
                   {selectedTvType &&
+                    tvPlans[selectedTvType] &&
                     tvPlans[selectedTvType].map((plan) => (
                       <option key={plan.id} value={plan.id}>
                         {plan.title}
@@ -178,47 +150,74 @@ const TvSubscription = (props) => {
                     ))}
                 </Form.Select>
                 <Form.Group>
-                  <Form.Label className='label phone-label'>
-                    Amount to pay
-                  </Form.Label>
+                  <Form.Label className="label">Amount to Pay</Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     value={amountToPay}
                     readOnly
-                    className='mb-3'
+                    className="mb-3"
                   />
                 </Form.Group>
-                <Button className='Buy-now-btn' type='submit'>
-                  Buy now
-                </Button>{" "}
+                <Button className="Buy-now-btn" type="submit" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Spinner animation="border" size="sm" />
+                      {" "} Processing...
+                    </>
+                  ) : (
+                    "Buy Now"
+                  )}
+                </Button>
               </Form>
             </Col>
-            {/* <Col sm={4} xs={{ order: '' }}>sm=4</Col> */}
           </Row>
         </div>
-        <div>
-          <Modal
-            show={show}
-            onHide={handleClose}
-            size='lg'
-            aria-labelledby='contained-modal-title-vcenter'
-            centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {message && <div className='alert alert-info'>{message}</div>}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant='primary' onClick={cableTVForm}>
-                Proceed
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
+        <Modal show={show} onHide={handleClose} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Transaction Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {message && <div className="alert alert-info">{message}</div>}
+            <Form.Group>
+              <Form.Label className="label">Cable TV Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={validatedData.cablename || ""}
+                className="mb-3"
+                readOnly
+              />
+              <Form.Label className="label">Smart Card Number / IUC Number</Form.Label>
+              <Form.Control
+                type="text"
+                value={validatedData.smart_card_number || ""}
+                className="mb-3"
+                readOnly
+              />
+              <Form.Label className="label">Amount to Pay</Form.Label>
+              <Form.Control
+                type="text"
+                value={amountToPay}
+                className="mb-3"
+                readOnly
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={cabletv} disabled={loading}>
+              {loading ? (
+                <>
+                  <Spinner animation="border" size="sm" />
+                  {" "} Proceeding...
+                </>
+              ) : (
+                "Proceed"
+              )}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </div>
   );
