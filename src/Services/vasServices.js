@@ -2,7 +2,7 @@
 
 import axios from "axios";
 let baseUrl = "http://localhost:5030/api/v1/vas/";
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 const vasServices = {
 	airTime: async (data) => {
 		let response = await axios.post(`${baseUrl}airtime`, data);
@@ -31,7 +31,9 @@ const vasServices = {
 		return response;
 	},
 	validateMeter: async (data) => {
+		console.log("Me: ", data);
 		let response = await axios.post(`${baseUrl}validateMeter`, data);
+		console.log("res:", response);
 		return response;
 	},
 	validateIUC: async (data) => {
@@ -39,11 +41,15 @@ const vasServices = {
 		return response;
 	},
 	InitilizePaystack: async (data) => {
-		let response = await axios.post(`${baseUrl}initialize_paystack`, data, {headers:{Authorization:token}});
-		window.open(response.authorization_url)
+		let response = await axios.post(`${baseUrl}initialize_paystack`, data, {
+			headers: { Authorization: token },
+		});
+		window.open(response.authorization_url);
 	},
 	verifyPaystack: async (data) => {
-		let response = await axios.post(`${baseUrl}verify_paystack`, data, {headers:{Authorization:token}})	
+		let response = await axios.post(`${baseUrl}verify_paystack`, data, {
+			headers: { Authorization: token },
+		});
 		return response;
 	},
 };

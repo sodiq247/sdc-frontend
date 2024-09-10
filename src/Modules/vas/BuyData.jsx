@@ -8,22 +8,23 @@ import Sidebar from "../../Components/Sidebar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import vasServices from "../../Services/vasServices";
-import dataTypes from "../Plans/dataTypes.json";
+import dataplan from "../Plans/dataPlans.json";
 import { useWallet } from "../../Components/Wallet";
 import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner"; // Import Spinner
 
 const BuyData = (props) => {
   const { handleSubmit, register, watch } = useForm();
   const { state, reduceWallet } = useWallet();
   const [selectedNetwork, setSelectedNetwork] = useState("");
-  const [selectedDataType, setSelectedDataType] = useState("");
   const [selectedPlanId, setSelectedPlanId] = useState("");
   const [amountToPay, setAmountToPay] = useState(0);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
   const [transactionDetails, setTransactionDetails] = useState({
     network: "",
-    data_type: "",
+    planTitle: "", // Added planTitle to transactionDetails
     mobile_number: "",
     amount: 0,
   });
@@ -42,10 +43,13 @@ const BuyData = (props) => {
     if (balance < amountToPay) {
       setMessage("Insufficient balance");
     } else {
+      // Find the selected plan to get its title
+      const selectedPlan = dataplan[selectedNetwork].find((plan) => plan.id === selectedPlanId);
+
       // Set transaction details for the modal
       setTransactionDetails({
         network: selectedNetwork,
-        data_type: selectedDataType,
+        planTitle: selectedPlan ? selectedPlan.title : "", // Set the plan title
         mobile_number,
         amount: amountToPay,
       });
@@ -56,17 +60,17 @@ const BuyData = (props) => {
   };
 
   const handleProceed = async () => {
+    setLoading(true); // Start loading
+
     try {
       const data = {
         network: selectedNetwork,
-        data_type: selectedDataType,
-        plan: selectedPlanId,
+        plan: selectedPlanId, // Send plan ID
         mobile_number: watch("mobile_number"),
         amount: amountToPay,
       };
 
       let response = await vasServices.dataBundle(data);
-      reduceWallet(amountToPay);
 
       if (response.error) {
         setMessage("Transaction unsuccessful");
@@ -78,19 +82,16 @@ const BuyData = (props) => {
       console.error("Error occurred during transaction:", error);
       setMessage("Transaction unsuccessful");
     }
+    setLoading(false); // Stop loading
+    // setTimeout(() => {
+    //   handleClose();
+    //   window.location.reload(); // Reload the page when the modal is closed
+    // }, 5000);
   };
 
   const handleNetworkChange = (event) => {
     const network = event.target.value;
     setSelectedNetwork(network);
-    setSelectedPlanId("");
-    setSelectedDataType("");
-    setAmountToPay(0);
-  };
-
-  const handleDataTypeChange = (event) => {
-    const dataType = event.target.value;
-    setSelectedDataType(dataType);
     setSelectedPlanId("");
     setAmountToPay(0);
   };
@@ -102,8 +103,8 @@ const BuyData = (props) => {
   };
 
   const updateAmountToPay = (planId) => {
-    if (selectedNetwork && selectedDataType && planId) {
-      const selectedPlans = dataTypes[selectedNetwork][selectedDataType];
+    if (selectedNetwork && planId) {
+      const selectedPlans = dataplan[selectedNetwork];
       const selectedPlan = selectedPlans.find((plan) => plan.id === planId);
 
       if (selectedPlan) {
@@ -130,31 +131,14 @@ const BuyData = (props) => {
                   className="mb-3"
                   {...register("network")}
                   onChange={handleNetworkChange}
+                  required
                 >
                   <option value="">Select a network</option>
                   <option value="1">MTN</option>
                   <option value="2">GLO</option>
-                  <option value="3">9mobile</option>
-                  <option value="4">Airtel</option>
+                  <option value="3">Airtel</option>
+                  <option value="4">9mobile</option>
                 </Form.Select>
-                <Form.Label className="label phone-label">Data Type</Form.Label>
-                <Form.Select
-                  aria-label="Select a network"
-                  className="mb-3"
-                  value={selectedDataType}
-                  onChange={handleDataTypeChange}
-                >
-                  <option value="">Select a data type</option>
-                  {selectedNetwork &&
-                    Object.keys(dataTypes[selectedNetwork]).map((plan) => (
-                      <option key={plan} value={plan}>
-                        {plan}
-                      </option>
-                    ))}
-                </Form.Select>
-                <p className="mb-3 plan-note">
-                  Select Plan Type SME or GIFTING or CORPORATE GIFTING
-                </p>
                 <Form.Label className="label">Plan</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
@@ -162,11 +146,11 @@ const BuyData = (props) => {
                   {...register("plan")}
                   value={selectedPlanId}
                   onChange={handlePlanChange}
+                  required
                 >
                   <option value="">Select a plan</option>
                   {selectedNetwork &&
-                    selectedDataType &&
-                    dataTypes[selectedNetwork][selectedDataType].map((plan) => (
+                    dataplan[selectedNetwork].map((plan) => (
                       <option key={plan.id} value={plan.id}>
                         {plan.title}
                       </option>
@@ -178,6 +162,7 @@ const BuyData = (props) => {
                     type="text"
                     placeholder="Enter phone number"
                     className="mb-3"
+                    required
                     {...register("mobile_number")}
                   />
                 </Form.Group>
@@ -205,21 +190,29 @@ const BuyData = (props) => {
                     <Modal.Title>Transaction Details</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                {message && <div className='alert alert-info'>{message}</div>}
-
+                    {message && <div className='alert alert-info'>{message}</div>}
                     <p>
-                      You're about to buy {transactionDetails.data_type} data worth ₦
-                      {transactionDetails.amount} for{" "}
-                      {transactionDetails.mobile_number} on{" "}
-                      {transactionDetails.network}
+                      You're about to buy {transactionDetails.planTitle} data worth ₦
+                      {transactionDetails.amount} to{" "}
+                      {transactionDetails.mobile_number}
                     </p>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                       Close
                     </Button>
-                    <Button variant="primary" onClick={handleProceed}>
-                      Proceed
+                    <Button
+                      variant="primary"
+                      onClick={handleProceed}
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <Spinner animation="border" size="sm" /> Proceeding...
+                        </>
+                      ) : (
+                        "Proceed"
+                      )}
                     </Button>
                   </Modal.Footer>
                 </Modal>
