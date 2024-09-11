@@ -167,12 +167,12 @@ const BuyData = (props) => {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label className="label phone-label">Amount to pay</Form.Label>
+                  <Form.Label className="label phone-label ">Amount to pay</Form.Label>
                   <Form.Control
                     type="text"
                     value={amountToPay}
                     readOnly
-                    className="mb-3"
+                    className="mb-3 "
                   />
                 </Form.Group>
                 <Button className="Buy-now-btn" type="submit">
@@ -192,8 +192,9 @@ const BuyData = (props) => {
                   <Modal.Body>
                     {message && <div className='alert alert-info'>{message}</div>}
                     <p>
-                      You're about to buy {transactionDetails.planTitle} data worth ₦
-                      {transactionDetails.amount} to{" "}
+                      You're about to buy {transactionDetails.planTitle} 
+                      {/* data worth ₦{transactionDetails.amount} */}
+                      {" "} to{" "}
                       {transactionDetails.mobile_number}
                     </p>
                   </Modal.Body>
