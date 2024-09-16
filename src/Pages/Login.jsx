@@ -35,6 +35,9 @@ const Login = (props) => {
 		setLoading(true);
 
 		let result = await accountServices.login(data);
+
+		setTimeout(() => {
+			
 		if (result.body.loggedIn === true) {
 			localStorage.setItem("token", result.body.access_token);
 			// console.log("token", result.body.access_token);
@@ -48,6 +51,7 @@ const Login = (props) => {
 			setMessage(result.body.error);
 		}
 
+		}, 2000)
 		setLoading(false);
 	};
 
