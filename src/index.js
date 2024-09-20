@@ -25,7 +25,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    response.data.statusCode = 200;
+    // response.data.statusCode = 200;
     return response.data;
   },
   (error) => {
