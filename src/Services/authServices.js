@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-let baseUrl = "https://sdc-frontend.onrender.com/api/v1/account/";
+let baseUrl = "https://sdc-back.onrender.com/api/v1/account/";
 
 const accountServices = {
 	login: async function (data) {
