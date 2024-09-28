@@ -38,7 +38,7 @@ const Signup = (props) => {
 
 
 		if (response.code === 200) {
-			console.log("response", response)
+			alert("response", response)
 			// 	setTimeout(() => {
 			// 	setMessage("Registration was successful");
 			// 	navigate("/");
