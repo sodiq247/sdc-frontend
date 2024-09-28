@@ -37,14 +37,16 @@ const Signup = (props) => {
 		let response = await accountService.signup(data);
 
 
-		setTimeout(() => {
-			if (response.code === 200) {
-				setMessage("Registration was successful");
-				navigate("/");
+		if (response.code === 200) {
+			console.log("response", response)
+			// 	setTimeout(() => {
+			// 	setMessage("Registration was successful");
+			// 	navigate("/");
+			// }, 2000)
+
 			} else {
 				setMessage(response.message);
 			}
-		}, 2000)
 		
 	};
 	return (
