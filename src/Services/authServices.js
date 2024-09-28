@@ -11,6 +11,7 @@ const accountServices = {
 	},
 	signup: async function (data) {
 		let response = await axios.post(`${baseUrl}`, data);
+		alert("Signup Response: and Data", response, data);
 		console.log("Signup Response: and Data", response, data);
 		return response;
 	},
