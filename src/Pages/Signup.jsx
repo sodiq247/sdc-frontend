@@ -33,7 +33,8 @@ const Signup = (props) => {
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(validationSchema) });
 	const createAccount = async (data) => {
-		data.role = "user";
+		try{
+			data.role = "user";
 		let response = await accountService.signup(data);
 
 
@@ -47,6 +48,9 @@ const Signup = (props) => {
 			} else {
 				setMessage(response.message);
 			}
+		}catch(e){
+			console.log(e);
+		}
 		
 	};
 	return (
