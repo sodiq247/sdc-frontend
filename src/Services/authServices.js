@@ -11,8 +11,8 @@ const accountServices = {
 	},
 	signup: async function (data) {
 		let response = await axios.post(`${baseUrl}/api/v1/account/registar`, data);
-		alert("Signup Response: and Data", response, data);
-		console.log("Signup Response: and Data", response, data);
+		alert("Signup Response:", response);
+		// console.log("Signup Response: and Data", response, data);
 		return response;
 	},
 	resetPassword: async function (data) {
