@@ -158,8 +158,14 @@ const Electricity = () => {
 									<option value="Prepaid">Prepaid</option>
 									<option value="Postpaid">Postpaid</option>
 								</Form.Select>
-
-								<Form.Label className="label">Amount</Form.Label>
+								
+								{/* <Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label> */}
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
+								<Form.Label className="label">Amountfs ghshgzgsfddxzgjdfx</Form.Label>
 								<Form.Control
 									type="number"
 									placeholder="Enter Amount"
