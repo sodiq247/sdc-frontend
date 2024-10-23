@@ -23,41 +23,41 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
-  (response) => {
-    // response.data.statusCode = 200;
-    return response.data;
-  },
-  (error) => {
-    let type = typeof error.response.data;
-    if (type === "string") {
-      error.response.data = {
-        statusCode: error.response.status,
-        body: error.response.data,
-      };
-    } else {
-      error.response.data.statusCode = error.response.status;
-    }
+// axios.interceptors.response.use(
+//   (response) => {
+//     // response.data.statusCode = 200;
+//     return response.data;
+//   },
+//   (error) => {
+//     let type = typeof error.response.data;
+//     if (type === "string") {
+//       error.response.data = {
+//         statusCode: error.response.status,
+//         body: error.response.data,
+//       };
+//     } else {
+//       error.response.data.statusCode = error.response.status;
+//     }
 
-    if (error.response.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("currentUser");
-      window.location.href = "/";
-    }
+//     if (error.response.status === 401) {
+//       localStorage.removeItem("token");
+//       localStorage.removeItem("currentUser");
+//       window.location.href = "/";
+//     }
 
-    return error.response.data;
-  }
-);
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <WalletProvider>
-        <App />
-      </WalletProvider>
-    </BrowserRouter>
-  </React.StrictMode>
-);
+//     return error.response.data;
+//   }
+//);
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(
+//   <React.StrictMode>
+//     <BrowserRouter>
+//       <WalletProvider>
+//         <App />
+//       </WalletProvider>
+//     </BrowserRouter>
+//   </React.StrictMode>
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
