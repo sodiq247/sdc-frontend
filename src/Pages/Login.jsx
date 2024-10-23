@@ -44,7 +44,7 @@ const Login = (props) => {
 			setMessage(result.message);
 			navigate("/dashboard");
 			
-				window.location.reload(); // Reload the page when the modal is closed
+				// window.location.reload(); // Reload the page when the modal is closed
 			
 		} else {
 			// console.log("result.message", result.body.error);
