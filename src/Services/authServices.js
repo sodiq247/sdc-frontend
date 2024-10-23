@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-let baseUrl = "https://sdc-backend.onrender.com";
+let baseUrl = "https://sdc-backend-t3j9.onrender.com/";
 
 const accountServices = {
 	login: async function (data) {
@@ -10,7 +10,7 @@ const accountServices = {
 		return response;
 	},
 	signup: async function (data) {
-		let response = await axios.post(`${baseUrl}/api/v1/account/register`, data);
+		let response = await axios.post(`${baseUrl}api/v1/account/register`, data);
 		alert("Signup Response:", response);
 		// console.log("Signup Response: and Data", response, data);
 		return response;

@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from "axios";
-let baseUrl = "http://localhost:5030/api/v1/vas/";
+let baseUrl = "https://sdc-backend-t3j9.onrender.com/api/v1/vas/";
 const token = localStorage.getItem("token");
 const vasServices = {
 	airTime: async (data) => {
