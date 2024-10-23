@@ -48,16 +48,16 @@ axios.interceptors.request.use(
 //     return error.response.data;
 //   }
 //);
-// const root = ReactDOM.createRoot(document.getElementById("root"));
-// root.render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <WalletProvider>
-//         <App />
-//       </WalletProvider>
-//     </BrowserRouter>
-//   </React.StrictMode>
-// );
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <WalletProvider>
+        <App />
+      </WalletProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
