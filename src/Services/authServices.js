@@ -6,7 +6,7 @@ let baseUrl = "https://sdc-backend-t3j9.onrender.com/api/v1/";
 
 const accountServices = {
 	login: async function (data) {
-		let response = await axios.post(`${baseUrl}token`, data);
+		let response = await axios.post(`${baseUrl}account/token`, data);
 		return response;
 	},
 	signup: async function (data) {
