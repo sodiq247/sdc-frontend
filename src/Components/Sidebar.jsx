@@ -45,61 +45,61 @@ const Sidebar = () => {
         <hr />
         <ul className='sidebar-list'>
           <li>
-            <Link to='/Dashboard'>
+            <Link to='/dashboard'>
               <FontAwesomeIcon icon={faHouseChimney} className='icon' />
               Dashboard
             </Link>
           </li>
           <li>
-            <Link to='/BuyAirtime'>
+            <Link to='/buyAirtime'>
               <FontAwesomeIcon icon={faPhoneVolume} className='icon' />
               Buy Airtime
             </Link>
           </li>
           <li>
-            <Link to='/BuyData'>
+            <Link to='/buyData'>
               <FontAwesomeIcon icon={faSignal} className='icon' />
               Buy Data
             </Link>
           </li>
           <li>
-            <Link to='/Electricity'>
+            <Link to='/electricity'>
               <FontAwesomeIcon icon={faLightbulb} className='icon' />
               Electricity
             </Link>
           </li>
           <li>
-            <Link to='/TVSubscription'>
+            <Link to='/tVSubscription'>
               <FontAwesomeIcon icon={faTv} className='icon' />
               TV Subscription
             </Link>
           </li>
           <li>
-            <Link to='/FundWallet'>
+            <Link to='/fundWallet'>
               <FontAwesomeIcon icon={faWallet} className='icon' />
               Fund Wallet
             </Link>
           </li>
           <li>
-            <Link to='/PaywithPaystack'>
+            <Link to='/paywithPaystack'>
               <FontAwesomeIcon icon={faWallet} className='icon' />
               PaywithPaystack
             </Link>
           </li>
           <li>
-            <Link to='/Prices'>
+            <Link to='/prices'>
               <FontAwesomeIcon icon={faTag} className='icon' />
               Prices
             </Link>
           </li>
           <li>
-            <Link to='/Account'>
+            <Link to='/account'>
               <FontAwesomeIcon icon={faUser} className='icon' />
               Account
             </Link>
           </li>
           <li>
-            <Link to='/Settings'>
+            <Link to='/settings'>
               <FontAwesomeIcon icon={faGear} className='icon' />
               Settings
             </Link>

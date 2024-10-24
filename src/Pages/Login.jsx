@@ -45,7 +45,7 @@ const Login = () => {
         setMessage("Login successful!");
         setTimeout(() => {
           navigate("/dashboard");
-          window.location.reload();
+          // window.location.reload();
         }, 2000);
       } else {
         setMessage(result.body.error);

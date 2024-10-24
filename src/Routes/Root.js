@@ -21,16 +21,16 @@ const Root = () => {
 		<Routes>
 			<Route path="/" exact Component={Login} />
 			<Route path="/Signup" Component={Signup} />
-			<Route path="/Dashboard" Component={Dashboard} />
-			<Route path="/BuyData" Component={BuyData} />
-			<Route path="/BuyAirtime" Component={BuyAirtime} />
-			<Route path="/Electricity" Component={Electricity} />
-			<Route path="/TvSubscription" Component={TvSubscription} />
-			<Route path="/Settings" Component={Settings} />
-			<Route path="/Account" Component={Account} />
-			<Route path="/Prices" Component={Prices} />
-			<Route path="/FundWallet" Component={FundWallet} />
-			<Route path="/PaywithPaystack" Component={PaywithPaystack } />
+			<Route path="/dashboard" Component={Dashboard} />
+			<Route path="/buyData" Component={BuyData} />
+			<Route path="/buyAirtime" Component={BuyAirtime} />
+			<Route path="/electricity" Component={Electricity} />
+			<Route path="/tvSubscription" Component={TvSubscription} />
+			<Route path="/settings" Component={Settings} />
+			<Route path="/account" Component={Account} />
+			<Route path="/prices" Component={Prices} />
+			<Route path="/fundWallet" Component={FundWallet} />
+			<Route path="/paywithPaystack" Component={PaywithPaystack } />
 			<Route path="/confirmation" Component={PaymentConfirmation } />
 		</Routes>
 	);
