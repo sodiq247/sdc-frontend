@@ -73,10 +73,12 @@ const BuyAirtime = (props) => {
 				network: watch("network"),
 				airtime_type: watch("airtime_type"), // Corrected field name
 				mobile_number: watch("mobile_number"),
+				airtime_type:"VTU"
 			};
 
 			let response = await vasServices.airTime(data);
 
+			console.log("Transaction data", data);
 			console.log("Transaction successful");
 			setMessage("Transaction successful");
 			setShowModal(false);
