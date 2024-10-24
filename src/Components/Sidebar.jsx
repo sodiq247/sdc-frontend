@@ -14,13 +14,24 @@ import {
   faRightFromBracket,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import { useWallet } from "./Wallet";
-// import Wallet from "./Wallet";
-// import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Sidebar = () => {
   const { state } = useWallet();
+  
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		// Clear all data from local storage
+		localStorage.clear();
+		// Redirect to the login page
+		navigate('/');
+	};
+
+
+
   return (
     <div className='sidebar web'>
       <div className='sidebar-sticky '>
@@ -94,10 +105,10 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link to='/'>
-              <FontAwesomeIcon icon={faRightFromBracket} className='icon' />
-              Log Out
-            </Link>
+          <button onClick={handleLogout} className="logout-button">
+							<FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+							Log Out
+						</button>
           </li>
         </ul>
       </div>

@@ -41,7 +41,8 @@ export const WalletProvider = ({ children }) => {
         type: SET_BALANCE_AND_NAME, 
         payload: { balance, name, lastname } 
       });
-      // console.log("walletBalance:", balance, "name:", name, "lastname:", lastname);
+      console.log("walletBalance:", balance, "name:", name, "lastname:", lastname);
+      console.log("walletBalance:result", result);
     } catch (error) {
       console.error("Error fetching wallet balance:", error);
       dispatch({

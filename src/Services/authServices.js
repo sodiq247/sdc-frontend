@@ -29,7 +29,7 @@ const accountServices = {
 			// console.log("tooooken", token)
 			if (!token) throw new Error("Token not found");
 
-			let response = await axios.get(`${baseUrl}verify`, {
+			let response = await axios.get(`${baseUrl}account/verify`, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			// console.log("Wallet balance response:", response);

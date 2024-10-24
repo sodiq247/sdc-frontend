@@ -21,7 +21,6 @@ const Root = () => {
 		<Routes>
 			<Route path="/" exact Component={Login} />
 			<Route path="/Signup" Component={Signup} />
-			<Route path="/Logout" Component={Logout} />
 			<Route path="/Dashboard" Component={Dashboard} />
 			<Route path="/BuyData" Component={BuyData} />
 			<Route path="/BuyAirtime" Component={BuyAirtime} />
